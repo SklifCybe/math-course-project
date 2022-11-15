@@ -1,0 +1,12 @@
+.correctAnswer {
+    color: green;
+}
+
+.inCorrectAnswer {
+    color: red;
+}
+
+.buttons {
+    display: flex;
+    gap: 24px;
+}
