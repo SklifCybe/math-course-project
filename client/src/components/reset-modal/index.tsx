@@ -28,17 +28,17 @@ export const ResetModal: FC<Props> = ({ open, onClose, onReset }) => (
     <Modal open={open} onClose={onClose}>
         <Box sx={boxStyles}>
             <Typography variant="h4" component="h2" align="center">
-                Reset the table results
+                Сбросить результаты таблицы
             </Typography>
             <Typography sx={{ mt: 2 }} align="center">
-                Are you sure you want to reset the table results
+                Вы уверены, что хотите сбросить результаты таблицы?
             </Typography>
             <div className={styles.buttons}>
                 <Button variant="contained" color="warning" onClick={onReset}>
-                    Reset
+                    Сбросить
                 </Button>
                 <Button variant="contained" color="info" onClick={onClose}>
-                    Cancel
+                    Отменить
                 </Button>
             </div>
         </Box>
