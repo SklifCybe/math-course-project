@@ -6,11 +6,11 @@ export const Start = () => {
     return (
         <>
             <Typography variant="h1" gutterBottom={true}>
-                Let's solve math
+                Quiz
             </Typography>
             <Button variant="contained" color="success" href="/auth">
                 <Typography variant="h4">
-                    Start
+                    Начать
                 </Typography>
             </Button>
         </>

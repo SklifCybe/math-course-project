@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { MathModule } from './math/math.module';
+import { QuestionModule } from './question/question.module';
 
 @Module({
-    imports: [MathModule],
+    imports: [QuestionModule],
     controllers: [],
     providers: [],
 })

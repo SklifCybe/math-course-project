@@ -8,16 +8,16 @@ import {
     Put,
 } from '@nestjs/common';
 import { ReplyAnswerDto } from './dto/reply.dto';
-import { MathService } from './math.service';
+import { QuestionService } from './question.service';
 import { SetUserNameDto } from './dto/set-user-name.dto';
 
-@Controller('math')
-export class MathController {
-    constructor(private readonly mathService: MathService) {}
+@Controller('question')
+export class QuestionController {
+    constructor(private readonly questionService: QuestionService) {}
 
     @Get('name')
     getName() {
-        const name = this.mathService.getName();
+        const name = this.questionService.getName();
 
         if (!name) throw new NotFoundException('Not found userName');
 
@@ -26,20 +26,20 @@ export class MathController {
 
     @Put()
     resetTable() {
-        return this.mathService.resetTable();
+        return this.questionService.resetTable();
     }
 
     @Post('name')
     setName(@Body() userNameDto: SetUserNameDto) {
-        return this.mathService.setName(userNameDto);
+        return this.questionService.setName(userNameDto);
     }
 
     @Patch()
     getNextExample(@Body() replyAnswerDto?: ReplyAnswerDto) {
         if (Object.keys(replyAnswerDto).length !== 0) {
-            this.mathService.replyAnswer(replyAnswerDto);
+            this.questionService.replyAnswer(replyAnswerDto);
         }
 
-        return this.mathService.getNextExample();
+        return this.questionService.getNextExample();
     }
 }

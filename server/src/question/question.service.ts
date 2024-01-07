@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { cloneDeep } from 'lodash';
 import { ReplyAnswerDto } from './dto/reply.dto';
 import { SetUserNameDto } from './dto/set-user-name.dto';
-import { MathExample } from './entities/math-example.entity';
+import { QuestionExample } from './entities/question-example.entity';
 import { Example } from './entities/example.entity';
-import * as mathExamplesDb from '../full-db.json';
+import * as questionDb from '../full-db.json';
 
 @Injectable()
-export class MathService {
-    private mathExamples: MathExample[] = mathExamplesDb;
+export class QuestionService {
+    private questions: QuestionExample[] = questionDb;
     private currentExample = 0;
     private name: { userName: string };
     private examples: Example[] = [];
@@ -19,15 +19,15 @@ export class MathService {
     }
 
     getRandomExamples() {
-        const resultExamples: Set<MathExample> = new Set();
+        const resultExamples: Set<QuestionExample> = new Set();
 
         for (let i = 0; resultExamples.size < this.countRandomExamples; i++) {
             const min = 0;
-            const max = this.mathExamples.length;
+            const max = this.questions.length;
 
             const index = Math.floor(Math.random() * (max - min) + min);
 
-            resultExamples.add(cloneDeep(this.mathExamples[index]));
+            resultExamples.add(cloneDeep(this.questions[index]));
         }
 
         return Array.from(resultExamples);
@@ -63,7 +63,7 @@ export class MathService {
         return nextExample;
     }
 
-    replyAnswer({ id, solution, time }: ReplyAnswerDto) {
+    replyAnswer({ id, solutionId, time }: ReplyAnswerDto) {
         const userNameId = this.getUserNameId();
 
         this.examples = this.examples.map((example) => {
@@ -76,7 +76,7 @@ export class MathService {
 
         const existExample = this.examples.find(({ userName, example }) => {
             if (this.name.userName === userName) {
-                return example.find((mathExample) => mathExample.id === id);
+                return example.find((question) => question.id === id);
             }
         });
 
@@ -84,11 +84,11 @@ export class MathService {
 
         this.examples[userNameId].example = this.examples[
             userNameId
-        ].example.map((mathExample: MathExample) => {
-            if (mathExample.id === id && mathExample.solution === solution) {
-                mathExample.correctAnswer = true;
+        ].example.map((questionExample: QuestionExample) => {
+            if (questionExample.id === id && questionExample.solutionId === solutionId) {
+                questionExample.correctAnswer = true;
             }
-            return mathExample;
+            return questionExample;
         });
 
         return existExample;

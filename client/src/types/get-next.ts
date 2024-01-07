@@ -1,23 +1,23 @@
 export type NextPayload = {
     id: number;
-    solution: number;
+    solutionId: number;
     time: string;
 };
 
-export type MathExampleType = {
+export type QuestionExampleType = {
     id: number;
     text: string;
-    solution: number;
+    solutionId: number;
     correctAnswer: boolean;
     variants: number[];
 };
 
 export type Example = {
     userName: string;
-    example: MathExampleType[];
+    example: QuestionExampleType[];
     time: string;
 };
 
 export type FinishNextResponse = Example[];
 
-export type GetNextResponse = MathExampleType & FinishNextResponse;
+export type GetNextResponse = QuestionExampleType & FinishNextResponse;

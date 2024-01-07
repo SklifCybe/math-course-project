@@ -4,19 +4,19 @@ import { useTimer } from 'react-timer-hook';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
-import { mathExample } from '../../api/math-example';
+import { questionExample } from '../../api/question-example';
 import { ResultTable } from '../../components/result-table';
 
-import type { NextPayload, Example, MathExampleType } from '../../types/get-next';
+import type { NextPayload, Example, QuestionExampleType } from '../../types/get-next';
 
 import styles from './index.module.css';
 
-export const MathExample = () => {
-    const [example, setExample] = useState<MathExampleType>();
+export const Question = () => {
+    const [example, setExample] = useState<QuestionExampleType>();
     const [isEnd, setIsEnd] = useState(false);
     const [disabled, setDisabled] = useState(false);
     const navigate = useNavigate();
-    const expiryTimestamp = new Date(Date.now() + 30 * 1000);
+    const expiryTimestamp = new Date(Date.now() + 59 * 1000);
 
     const onExpire = () => {
         navigate('/');
@@ -24,20 +24,20 @@ export const MathExample = () => {
 
     const { seconds, pause } = useTimer({ expiryTimestamp, autoStart: true, onExpire });
 
-    const fetchNextExample = async (event?: MouseEvent<HTMLButtonElement>) => {
+    const fetchNextExample = (index: number) => async (event?: MouseEvent<HTMLButtonElement>) => {
         setDisabled(true);
         let data;
 
         if (!event) {
-            data = await mathExample.getNextExample();
+            data = await questionExample.getNextExample();
         } else {
             const payload: NextPayload = {
                 id: example!.id,
-                solution: Number(event?.currentTarget.textContent),
+                solutionId: index,
                 time: seconds.toString(),
             };
 
-            data = await mathExample.getNextExample(payload);
+            data = await questionExample.getNextExample(payload);
         }
 
         setExample(data);
@@ -51,7 +51,7 @@ export const MathExample = () => {
     };
 
     useEffect(() => {
-        fetchNextExample();
+        fetchNextExample(0)();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -64,19 +64,13 @@ export const MathExample = () => {
             <Typography variant="h3" gutterBottom={true}>
                 {seconds}
             </Typography>
-            <Typography variant="h1" gutterBottom={true}>
+            <Typography variant="h3" gutterBottom={true} textAlign="center">
                 {example?.text}
             </Typography>
             <div className={styles.variants}>
                 {example?.variants?.map((variant, index) => (
-                    <Button
-                        key={index}
-                        variant="contained"
-                        color="success"
-                        onClick={fetchNextExample}
-                        disabled={disabled}
-                    >
-                        <Typography variant="h4">{variant}</Typography>
+                    <Button key={index} variant="contained" color="success" onClick={fetchNextExample(index)} disabled={disabled}>
+                        <Typography variant="h5">{variant}</Typography>
                     </Button>
                 ))}
             </div>

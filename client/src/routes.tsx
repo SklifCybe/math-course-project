@@ -3,7 +3,7 @@ import { BrowserRouter, Routes as ReactRoutes, Route } from 'react-router-dom';
 
 import { Start } from './pages/start';
 import { Auth } from './pages/auth';
-import { MathExample } from './pages/math-example';
+import { Question } from './pages/question';
 
 export const Routes = () => {
     return (
@@ -11,7 +11,7 @@ export const Routes = () => {
             <ReactRoutes>
                 <Route index element={<Start />} />
                 <Route path="/auth" element={<Auth />} />
-                <Route path="/math" element={<MathExample />} />
+                <Route path="/question" element={<Question />} />
             </ReactRoutes>
         </BrowserRouter>
     );

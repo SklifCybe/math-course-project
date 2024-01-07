@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
-import { mathExample } from '../../api/math-example';
+import { questionExample } from '../../api/question-example';
 
 export const Auth = () => {
     const [userName, setUserName] = useState('');
@@ -17,29 +17,22 @@ export const Auth = () => {
 
     const submitName = async () => {
         if (!userName) return;
-        
+
         setDisabled(true);
-        await mathExample.setUserName(userName);
+        await questionExample.setUserName(userName);
         setDisabled(false);
 
-        navigate('/math');
+        navigate('/question');
     };
 
     return (
         <>
             <Typography variant="h1" gutterBottom={true}>
-                Enter your name
+                Введите ваше имя
             </Typography>
-            <TextField
-                label="User Name"
-                variant="outlined"
-                color="success"
-                sx={{ marginBottom: '40px' }}
-                value={userName}
-                onChange={handleChangeName}
-            />
+            <TextField label="Имя" variant="outlined" color="success" sx={{ marginBottom: '40px' }} value={userName} onChange={handleChangeName} />
             <Button variant="contained" color="success" onClick={submitName} disabled={disabled}>
-                <Typography variant="h4">Next</Typography>
+                <Typography variant="h4">Продолжить</Typography>
             </Button>
         </>
     );
