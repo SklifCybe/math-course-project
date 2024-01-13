@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ReplyAnswerDto } from './dto/reply.dto';
 import { QuestionService } from './question.service';
-import { SetUserNameDto } from './dto/set-user-name.dto';
+import { SetUserNameDto } from './dto/user-auth.dto';
 
 @Controller('question')
 export class QuestionController {

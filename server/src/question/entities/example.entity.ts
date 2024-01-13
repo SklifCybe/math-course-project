@@ -1,7 +1,7 @@
-import { QuestionExample } from './question-example.entity';
+import { Question } from '@prisma/client';
 
 export type Example = {
     userName: string;
-    example: QuestionExample[];
+    example: Question[];
     time: string;
 };

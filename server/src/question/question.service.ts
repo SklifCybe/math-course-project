@@ -1,44 +1,49 @@
 import { Injectable } from '@nestjs/common';
 import { cloneDeep } from 'lodash';
 import { ReplyAnswerDto } from './dto/reply.dto';
-import { SetUserNameDto } from './dto/set-user-name.dto';
-import { QuestionExample } from './entities/question-example.entity';
+import { SetUserNameDto } from './dto/user-auth.dto';
 import { Example } from './entities/example.entity';
-import * as questionDb from '../full-db.json';
+import { QuestionRepository } from './question.repository';
+import { Question } from '@prisma/client';
 
 @Injectable()
 export class QuestionService {
-    private questions: QuestionExample[] = questionDb;
     private currentExample = 0;
     private name: { userName: string };
     private examples: Example[] = [];
     private countRandomExamples = 10;
 
+    constructor(private readonly questionRepository: QuestionRepository) {}
+
     getName() {
         return this.name?.userName;
     }
 
-    getRandomExamples() {
-        const resultExamples: Set<QuestionExample> = new Set();
+    public async getRandomExamples(): Promise<Question[]> {
+        const questions = await this.questionRepository.getAll();
+        const resultExamples: Set<Question> = new Set();
 
         for (let i = 0; resultExamples.size < this.countRandomExamples; i++) {
             const min = 0;
-            const max = this.questions.length;
+            const max = questions.length;
 
             const index = Math.floor(Math.random() * (max - min) + min);
 
-            resultExamples.add(cloneDeep(this.questions[index]));
+            resultExamples.add(cloneDeep(questions[index]));
         }
 
         return Array.from(resultExamples);
     }
 
-    setName(userNameDto: SetUserNameDto) {
+    public async setName(
+        userNameDto: SetUserNameDto,
+    ): Promise<{ userName: string }> {
         this.name = userNameDto;
+        const randomExamples = await this.getRandomExamples();
 
         this.examples.push({
             userName: this.name.userName,
-            example: this.getRandomExamples(),
+            example: randomExamples,
             time: '',
         });
 
@@ -84,8 +89,11 @@ export class QuestionService {
 
         this.examples[userNameId].example = this.examples[
             userNameId
-        ].example.map((questionExample: QuestionExample) => {
-            if (questionExample.id === id && questionExample.solutionId === solutionId) {
+        ].example.map((questionExample: Question) => {
+            if (
+                questionExample.id === id &&
+                questionExample.solutionId === solutionId
+            ) {
                 questionExample.correctAnswer = true;
             }
             return questionExample;

@@ -1,11 +1,11 @@
 export type NextPayload = {
-    id: number;
+    id: string;
     solutionId: number;
     time: string;
 };
 
 export type QuestionExampleType = {
-    id: number;
+    id: string;
     text: string;
     solutionId: number;
     correctAnswer: boolean;

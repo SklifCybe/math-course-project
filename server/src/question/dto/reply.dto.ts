@@ -1,5 +1,5 @@
 export class ReplyAnswerDto {
-    id: number;
+    id: string;
     solutionId: number;
     time: string;
 }
