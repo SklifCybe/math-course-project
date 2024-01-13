@@ -25,7 +25,7 @@ const boxStyles = {
 };
 
 export const ResetModal: FC<Props> = ({ open, onClose, onReset }) => (
-    <Modal open={open} onClose={onClose}>
+    <Modal data-testid="modal-root" open={open} onClose={onClose}>
         <Box sx={boxStyles}>
             <Typography variant="h4" component="h2" align="center">
                 Сбросить результаты таблицы
