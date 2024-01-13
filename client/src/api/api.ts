@@ -1,3 +1,3 @@
 export abstract class Api {
-    protected readonly baseURI = 'http://localhost:8080';
+    protected readonly baseURI = process.env.REACT_APP_BACKEND_URL;
 }
